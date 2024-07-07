@@ -24,16 +24,72 @@ const GetNewVarName = (name, datatype, mutabletype) => {
 
 const RelpaceVariableNameInLine = (line) => {
     let modifiedLine = line;
-    for (const [originalVarname, renamedVarname] of Object.entries(VariableStorage)) {
-        const regex = new RegExp(`\\b${originalVarname}\\b`, 'g');
-        modifiedLine = modifiedLine.replace(regex, renamedVarname);
+
+    // Regex to match double-quoted strings
+    const stringRegex = /"[^"]*"/g;
+
+    // Track current position in the line
+    let lastIndex = 0;
+
+    // Temporary array to hold parts of the line
+    let parts = [];
+
+    // Extract strings and split the line into parts
+    line.replace(stringRegex, (match, offset) => {
+        // Add text before the string literal
+        if (offset > lastIndex) {
+            parts.push({ text: line.slice(lastIndex, offset), type: 'text' });
+        }
+        // Add the string literal itself
+        parts.push({ text: match, type: 'string' });
+        lastIndex = offset + match.length;
+        return match;
+    });
+
+    // Add remaining text after the last string literal
+    if (lastIndex < line.length) {
+        parts.push({ text: line.slice(lastIndex), type: 'text' });
     }
+
+    // Replace variables only in text parts
+    parts = parts.map(part => {
+        if (part.type === 'text') {
+            let newText = part.text;
+            for (const [originalVarname, renamedVarname] of Object.entries(VariableStorage)) {
+                const regex = new RegExp(`\\b${originalVarname}\\b`, 'g');
+                newText = newText.replace(regex, renamedVarname);
+            }
+            return { text: newText, type: 'text' };
+        }
+        return part; // No change for string literals
+    });
+
+    // Combine parts back into a single line
+    modifiedLine = parts.map(part => part.text).join('');
+
     return modifiedLine;
 }
+
+
+const HandleFStrings = (line) => {
+    const regex = /f"([^"]*)"/g;
+    let match;
+
+    while ((match = regex.exec(line)) !== null) {
+        const strContent = match[1];
+        const converted = "`" + strContent.replace(/{/g, "${") + "`";
+        line = line.replace(match[0], converted);
+    }
+
+    return line;
+}
+
+
 
 module.exports = {
     VariableNameValidator,
     VariableStorage,
     GetNewVarName,
-    RelpaceVariableNameInLine
+    RelpaceVariableNameInLine,
+    HandleFStrings
 };

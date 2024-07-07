@@ -8,8 +8,9 @@ const DATA_TYPES = {
         return res !== null;
     },
     "String": (potential_string) => {
-        const res = potential_string.match(/^"([^"\\]|\\.)*"$/) || potential_string.match(/^'([^'\\]|\\.)*'$/);
-        return res !== null;
+        const trimmed = potential_string.trim()
+        return ((trimmed.startsWith("f\"") || trimmed.startsWith("\"")) && trimmed.endsWith("\""))
+            || (trimmed.startsWith("`") && trimmed.endsWith("`"))
     },
     "Proposition": (potential_boolean) => {
         const res = potential_boolean.match(/^(True|False|Yes|No)$/i);

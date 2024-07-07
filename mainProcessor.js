@@ -1,4 +1,4 @@
-const { RelpaceVariableNameInLine } = require('./variableValidator');
+const { RelpaceVariableNameInLine, HandleFStrings } = require('./variableValidator');
 const Processors = require('./keywordProcessors');
 
 //////////////////////////////////////
@@ -8,6 +8,7 @@ const Processors = require('./keywordProcessors');
 const processSourceCode = (sourceCode) => {
     const lines = sourceCode.split("\n");
     const transpiledLines = lines.map(line => {
+        line = HandleFStrings(line);
         line = RelpaceVariableNameInLine(line);
         if (line.startsWith("//") || line.trim() === "") {
             return line;
