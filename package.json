@@ -4,8 +4,14 @@
   "description": "verbose js, a superset of javascript",
   "main": "main.js",
   "scripts": {
-    "build": "node main.js"
+    "build": "node src/main.js compile test/main.vjs",
+    "start": "node dist/main.js",
+    "dev": "npm run build && npm run start"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "fs-extra": "^11.2.0"
+  }
 }

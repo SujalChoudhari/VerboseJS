@@ -1,5 +1,5 @@
 
-## Syntax
+## Improved Syntax for JS
 
 ### Variable Declaration 
 
@@ -31,4 +31,34 @@ Convolution j When j <= 5 { // while
     } 
     console.log("\nWorld Hello",j);
     j++;
+}
+
+### Imports
+Obligate "fs" as fs;
+fs.readFile("test.txt", (err, data) => {
+    // ...
+})
+
+### IF statements
+Mutable Ordinal Number = 10;
+Granted Number > 5 {
+    console.log("10");
+} Conversely Granted Number > 5 {
+    console.log("5");
+}
+
+### Match Case
+
+Mutable Ordinal Number = 10;
+
+Correlate (Number) {
+    Condition 1:
+        console.log(1);
+        Layoff;
+    Condition 2:
+        console.log(2);
+        Layoff;
+    Delinquent:
+        console.log(10);
+        Layoff;
 }

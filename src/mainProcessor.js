@@ -21,21 +21,30 @@ const processSourceCode = (sourceCode) => {
         return splitLines.map(part => {
             part = HandleFStrings(part);
             part = RelpaceVariableNameInLine(part);
+
             if (part.startsWith("//") || part.trim() === "") {
                 return part;
-            } else if (part.includes("Mutable")) {
-                return Processors.Mutable(part);
-            } else if (part.includes("Immutable")) {
-                return Processors.Immutable(part);
-            } else if (part.includes("Convolution")) {
-                return Processors.Convolution(part);
-            } else {
-                return `${part}`;
             }
+
+            let newLine = part;
+            for (const keyword in Processors) {
+                if (part.includes(keyword)) {
+                    newLine =  Processors[keyword](newLine);
+                }
+            }
+
+            // for (const keyword in Processors) {
+            //     if (newLine.includes(keyword)) {
+            //         newLine =  Processors[keyword](newLine);
+            //     }
+            // }
+
+            return newLine;
         });
     });
 
     return transpiledLines.join("\n");
 };
+
 
 module.exports = processSourceCode;
