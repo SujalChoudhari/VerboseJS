@@ -19,7 +19,7 @@ const VariableStorage = {
 }; // varname: renamedVarname
 
 const GetNewVarName = (name, datatype, mutabletype) => {
-    return `${name}_${mutabletype}_${datatype}`
+    return `${name}_${mutabletype.substring(0,3)}_${datatype.substring(0,3)}`
 }
 
 const RelpaceVariableNameInLine = (line) => {

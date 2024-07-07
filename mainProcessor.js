@@ -13,11 +13,14 @@ const processSourceCode = (sourceCode) => {
         if (line.startsWith("//") || line.trim() === "") {
             return line;
         }
-        else if (line.startsWith("Mutable")) {
+        else if (line.includes("Mutable")) {
             return Processors.Mutable(line);
         }
-        else if (line.startsWith("Immutable")) {
+        else if (line.includes("Immutable")) {
             return Processors.Immutable(line);
+        }
+        else if (line.includes("Convolution")) {
+            return Processors.Convolution(line)
         }
         else {
             return `${line}`;
