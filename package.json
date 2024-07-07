@@ -1,0 +1,11 @@
+{
+  "name": "verbosejs",
+  "version": "1.0.0",
+  "description": "verbose js, a superset of javascript",
+  "main": "main.js",
+  "scripts": {
+    "build": "node main.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
