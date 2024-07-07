@@ -1,16 +1,12 @@
 const processSourceCode = require('./mainProcessor.js');
 
 const SOURCE_CODE = `
-
-Mutable Ordinal VarName = 10;
-Mutable String StrName = "Strings";
-Immutable String FormattedStrings = f"These are {StrName}"
-Mutable Infer AVariableName = Ambiguous;
-StrName += " Stringsssss";
-
-Mutable Infer Objects = {
-    name: "John",
-    age: 30
+Convolution j When j <= 5 {
+    Convolution (i,0..2) {
+        console.log("Hello Shakespeare",i);
+    } 
+    console.log("\\nWorld Hello",j);
+    j++;
 }
 `;
 

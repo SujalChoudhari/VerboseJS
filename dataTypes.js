@@ -13,8 +13,7 @@ const DATA_TYPES = {
             || (trimmed.startsWith("`") && trimmed.endsWith("`"))
     },
     "Proposition": (potential_boolean) => {
-        const res = potential_boolean.match(/^(True|False|Yes|No)$/i);
-        return res !== null;
+        return potential_boolean.includes("true") ||  potential_boolean.includes("false") 
     },
     "Disposition": (potential_array) => {
         try {
@@ -25,10 +24,10 @@ const DATA_TYPES = {
         }
     },
     "Ambiguous": (potential_undefined) => {
-        return potential_undefined.trim() === "Ambiguous" || potential_undefined.trim() === "undefined";
+        return potential_undefined.includes() === "undefined";
     },
     "Void": (potential_null) => {
-        return potential_null.trim() === "Void" || potential_null.trim() === "null";
+        return potential_null.includes() === "null";
     },
     "Infer": (_) => {
         return true;
