@@ -14,27 +14,38 @@ const handleVariableDeclaration = (keyword, line) => {
     const datatype_or_varname = tokens[1];
     let datatype, varname, value;
 
-    if (!Object.keys(DATA_TYPES).includes(datatype_or_varname)) { // Data type not found
-        datatype = "Infer";
+    if (line.includes("=")) { // Handle lines with an assignment
+        const assignmentParts = line.split("=");
+        value = assignmentParts[1].trim().replace(/;$/, "");
+
+        if (!Object.keys(DATA_TYPES).includes(datatype_or_varname)) { // Data type not found
+            datatype = "Infer";
+            varname = datatype_or_varname;
+        } else { // Data type found
+            datatype = tokens[1];
+            varname = tokens[2];
+        }
+
+        if (!VariableNameValidator(varname)) {
+            return TranspilationMaker(`${keyword} ${varname} = ${value}`, `Invalid varname ${varname}`);
+        }
+        if (!DATA_TYPES[datatype](value)) {
+            return TranspilationMaker(`${keyword} ${varname} = ${value}`, `Invalid value for datatype ${datatype}: ${value}`);
+        }
+        return TranspilationMaker(`${keyword} ${varname} = ${value}`, "");
+
+    } else { // Handle lines without an assignment
         varname = datatype_or_varname;
-        value = line.split("=")[1].trim().replace(/;$/, "");
-    } else { // Data type found
-        datatype = tokens[1];
-        varname = tokens[2];
-        value = line.split("=")[1].trim().replace(/;$/, "");
-    }
+        datatype = "Infer";
+        value = "";
 
-    const prefix = keyword === "let" ? "Mutable" : "Immutable";
-
-
-    if (!VariableNameValidator(varname)) {
-        return TranspilationMaker(`${keyword} ${varname} = ${value}`, `Invalid varname ${varname}`);
+        if (!VariableNameValidator(varname)) {
+            return TranspilationMaker(`${keyword} ${varname};`, `Invalid varname ${varname}`);
+        }
+        return TranspilationMaker(`${keyword} ${varname};`, "");
     }
-    if (!DATA_TYPES[datatype](value)) {
-        return TranspilationMaker(`${keyword} ${varname} = ${value}`, `Invalid value for datatype ${datatype}: ${value}`);
-    }
-    return TranspilationMaker(`${keyword} ${varname} = ${value}`, "");
 }
+
 
 const handleLoops = (line) => {
     if (line.includes("When")) {
@@ -90,8 +101,37 @@ const handleArrowFunctions = (line) => {
 
     let resultLine = line.slice(0, startIndex) + arrowFunction + line.slice(endIndex + 1);
     // Replace the Subroutine definition with the arrow function, keep the rest of the line intact
-    return resultLine.replace("Subroutine","")
+    return resultLine.replace("Subroutine", "")
 };
+
+const handleFuntion = (line) => {
+    // Find the start and end indices of the parentheses
+    const startIndex = line.indexOf('(');
+    const endIndex = line.indexOf(')');
+
+    if (startIndex === -1 || endIndex === -1) {
+        throw new Error('Invalid line format');
+    }
+
+    // Extract the part of the line inside the parentheses
+    let paramsPart = line.slice(startIndex + 1, endIndex);
+
+    // Split the part to get only the parameters, ignoring types
+    let params = paramsPart.split(':')[0]; // Get only the parameters part
+
+    // If params is empty, just use empty parentheses
+    if (params.trim() === '') {
+        params = '';
+    }
+
+    // Construct the arrow function string
+    const paramsInParen = `(${params}) `;
+
+    let resultLine = line.slice(0, startIndex) + paramsInParen + line.slice(endIndex + 1);
+    // Replace the Subroutine definition with the arrow function, keep the rest of the line intact
+    return resultLine.replace("Procedure", "function")
+
+}
 
 
 //////////////////////////////////////
@@ -104,7 +144,8 @@ const Processors = {
     "Convolution": (line) => handleLoops(line),
     "Obligate": (line) => handleImports(line),
     "Granted": (line) => handleIf(line),
-    "Subroutine": (line) => handleArrowFunctions(line)
+    "Subroutine": (line) => handleArrowFunctions(line),
+    "Procedure": (line) => handleFuntion(line)
 
 }
 

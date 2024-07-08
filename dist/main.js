@@ -1,53 +1,35 @@
-const ConditionA = true
-const CaseA = 'case1'
-const CaseB = 'case2'
-const SomeCondition = true
-let main =  () =>  { // WARN: Invalid varname main
-switch(ConditionA) {
-case(CaseA):
-console.log('This is case1')
-break
-case(CaseB):
-console.log('This is case2')
-break
-default:
-console.log('This is the default case')
+//////////////////////////////////////
+// DATA TYPES
+//////////////////////////////////////
+const DATA_TYPES = { // WARN: Invalid varname DATA_TYPES
+    "Ordinal": (potential_number) => {
+        const res = potential_number.match(/^-?\d+(\.\d+)?$/) // WARN: Invalid varname res
+        return res !== null
+    },
+    "String": (potential_string) => {
+        const trimmed = potential_string.trim() // WARN: Invalid varname trimmed
+        return ((trimmed.startsWith("f\"") || trimmed.startsWith("\"")) && trimmed.endsWith("\""))
+            || (trimmed.startsWith("`") && trimmed.endsWith("`"))
+    },
+    "Proposition": (potential_boolean) => {
+        return potential_boolean.includes("true") || potential_boolean.includes("false")
+    },
+    "Disposition": (potential_array) => {
+        try {
+            const parsed = JSON.parse(potential_array) // WARN: Invalid varname parsed
+            return Array.isArray(parsed)
+        } catch {
+            return false
+        }
+    },
+    "undefined": (potential_undefined) => {
+        return potential_undefined.includes() === "undefined"
+    },
+    "null": (potential_null) => {
+        return potential_null.includes() === "null"
+    },
+    "Infer": (_) => {
+        return true
+    }
 }
-async function fetchData() {
-try {
-// Simulate async operation
-await new Promise(resolve => setTimeout(resolve, 1000))
-console.log('Data fetched successfully')
-} catch(error) {
-console.error('Error fetching data:', error)
-}
-}
-fetchData()
-for (let i = 0; i < 10; i++) {
-if ((i % 2 == 0) ) {
-continue
-} else {
-console.log("Odd")
-}
-}
-// Granted (if) condition
-if ((SomeCondition) ) {
-console.log('case is true')
-}
-}
-class A {
-ContextContext = 10
-constructor() {
-console.log("FAB")
-}
-}
-class B extends A {
-constructor () {
-super()
-console.log(this.ContextContext)
-}
-}
-let WorkingA = new A()
-let WorkingB = new B()
-// Call the main function
-main()
+module.exports = DATA_TYPES

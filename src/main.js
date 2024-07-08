@@ -6,11 +6,11 @@ program
     .command('compile <input> [output]')
     .description('Compile a single source file')
     .action(async (input, output = path.join('dist', path.basename(input, path.extname(input)) + '.js')) => {
-        try {
+        // try {
             await compileFile(input, output);
-        } catch (error) {
-            console.error(`Error compiling file: ${error.message}`);
-        }
+        // } catch (error) {
+        //     console.error(`Error compiling file: ${error.message}`);
+        // }
     });
 
 program

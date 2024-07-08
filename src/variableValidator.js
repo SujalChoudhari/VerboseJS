@@ -27,12 +27,24 @@ const VariableStorage = {
     "Expose": "catch",
     "Recapitulate": "continue",
     "New": "new",
-    "Procedure": "function",
     "Blueprint": "class",
     "Fabricator": "constructor",
     "Inherits": "extends",
     "Ancestor": "super",
-    "Aforementioned": "this"
+    "Aforementioned": "this",
+    "Rejoinder": "return",
+    "And": "&&",
+    "Or": "||",
+    "Not": "!",
+    "Equal": "==",
+    "Matches": "===",
+    "NotEqual": "!=",
+    "NotMatches": "!==",
+    "Greater": ">",
+    "Less": "<",
+    "GreaterEqual": ">=",
+    "LessEqual": "<=",
+    "Share": "module.exports = ",
 };
 
 const RelpaceVariableNameInLine = (line) => {
