@@ -2,7 +2,6 @@ const ConditionA = true
 const CaseA = 'case1'
 const CaseB = 'case2'
 const SomeCondition = true
-// Replacing words
 let main =  () =>  { // WARN: Invalid varname main
 switch(ConditionA) {
 case(CaseA):
@@ -36,5 +35,19 @@ if ((SomeCondition) ) {
 console.log('case is true')
 }
 }
+class A {
+ContextContext = 10
+constructor() {
+console.log("FAB")
+}
+}
+class B extends A {
+constructor () {
+super()
+console.log(this.ContextContext)
+}
+}
+let WorkingA = new A()
+let WorkingB = new B()
 // Call the main function
 main()

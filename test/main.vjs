@@ -3,7 +3,6 @@ Immutable Infer CaseA = 'case1';
 Immutable Infer CaseB = 'case2';
 Immutable Proposition SomeCondition = Yes;
 
-// Replacing words
 Mutable Infer main = Subroutine () {
     Correlate(ConditionA) {
         Condition(CaseA):
@@ -42,6 +41,23 @@ Mutable Infer main = Subroutine () {
         console.log('Condition is true');
     }
 }
+
+Blueprint A {
+    ContextContext = 10;
+    Fabricator() {
+        console.log("FAB")
+    }
+}
+
+Blueprint B Inherits A {
+    Fabricator () {
+        Ancestor();
+        console.log(Aforementioned.ContextContext)
+    }
+}
+
+Mutable Infer WorkingA = New A();
+Mutable Infer WorkingB = New B();
 
 // Call the main function
 main();

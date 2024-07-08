@@ -25,9 +25,14 @@ const VariableStorage = {
     "Anticipate": "await",
     "Endeavor": "try",
     "Expose": "catch",
-    "Recapitulate":"continue",
+    "Recapitulate": "continue",
     "New": "new",
     "Procedure": "function",
+    "Blueprint": "class",
+    "Fabricator": "constructor",
+    "Inherits": "extends",
+    "Ancestor": "super",
+    "Aforementioned": "this"
 };
 
 const RelpaceVariableNameInLine = (line) => {
